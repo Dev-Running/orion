@@ -1,10 +1,10 @@
-import { ContractContract, ResponseContract } from '@/data/contracts'
+import { ResponseContract } from '@/data/contracts'
 import { ContractModel } from '@/data/models/contract.models'
 import { ContractRepository } from '@/infra/repositories'
 import { Injectable } from '@nestjs/common'
 
 @Injectable()
-export class ContractService implements ContractContract {
+export class ContractService {
   constructor(private repository: ContractRepository) {}
 
   async new(data: ContractModel): Promise<ContractModel | ResponseContract> {
