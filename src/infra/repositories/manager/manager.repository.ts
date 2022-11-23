@@ -1,7 +1,7 @@
 import { ManagerContract } from '@/data/contracts'
 import { ManagerModel } from '@/data/models'
 import { Manager as Man } from '@/domain/entities'
-import { PrismaService } from '@/prisma'
+import { PrismaService } from '@/infra/prisma'
 import { Injectable } from '@nestjs/common'
 import { genSaltSync, hashSync } from 'bcrypt'
 import { randomUUID } from 'crypto'

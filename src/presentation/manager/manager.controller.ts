@@ -1,6 +1,6 @@
 import { ManagerContract } from '@/data/contracts'
+import { ManagerService } from '@/data/services'
 import { Manager } from '@/domain/entities'
-import { ManagerService } from '@/infra/services'
 import {
   Body,
   Controller,

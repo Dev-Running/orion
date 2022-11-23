@@ -1,7 +1,7 @@
+import { ManagerService } from '@/data/services'
+import { PrismaService } from '@/infra/prisma'
 import { ManagerRepository } from '@/infra/repositories'
-import { ManagerService } from '@/infra/services'
-import { ManagerController } from '@/presentation'
-import { PrismaService } from '@/prisma/prisma.service'
+import { ManagerController } from '@/presentation/manager'
 import { Module } from '@nestjs/common'
 
 @Module({

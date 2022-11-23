@@ -1,6 +1,6 @@
 import { CourseContract } from '@/data/contracts'
 import { CourseModel } from '@/data/models'
-import { CourseService } from '@/infra/services'
+import { CourseService } from '@/data/services'
 import {
   Body,
   Controller,

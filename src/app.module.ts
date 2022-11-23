@@ -1,7 +1,7 @@
-import { ManagerModule } from '@/presentation'
+import { PrismaService } from '@/infra/prisma'
 import { CourseModule } from '@/presentation/course'
+import { ManagerModule } from '@/presentation/manager'
 import { Module } from '@nestjs/common'
-import { PrismaService } from './prisma/prisma.service'
 
 @Module({
   imports: [ManagerModule, CourseModule],

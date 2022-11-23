@@ -1,7 +1,7 @@
+import { CourseService } from '@/data/services'
+import { PrismaService } from '@/infra/prisma'
 import { CourseRepository } from '@/infra/repositories'
-import { CourseService } from '@/infra/services'
 import { CourseController } from '@/presentation/course'
-import { PrismaService } from '@/prisma'
 import { Module } from '@nestjs/common'
 
 @Module({

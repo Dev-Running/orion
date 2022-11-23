@@ -1,6 +1,6 @@
 import { CourseContract } from '@/data/contracts'
 import { CourseModel } from '@/data/models'
-import { PrismaService } from '@/prisma'
+import { PrismaService } from '@/infra/prisma'
 import { Injectable } from '@nestjs/common'
 import { randomUUID } from 'crypto'
 
