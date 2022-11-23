@@ -1,3 +1,5 @@
+export * from './contract/contract.repository'
 export * from './course/course.repository'
+export * from './lesson/lesson.repository'
 export * from './manager/manager.repository'
 export * from './module/module.repository'

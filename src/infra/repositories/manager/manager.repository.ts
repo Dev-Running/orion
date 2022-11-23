@@ -27,11 +27,8 @@ export class ManagerRepository implements ManagerContract {
     return await this.prisma.manager.findUnique({ where: { id } })
   }
 
-  async delete(id: string): Promise<Error | string> {
-    return await this.prisma.manager
-      .delete({ where: { id } })
-      .then((res) => 'deleted')
-      .catch((err) => err)
+  async delete(id: string): Promise<ManagerModel> {
+    return await this.prisma.manager.delete({ where: { id } })
   }
   async update(idManager: string, data: any): Promise<ManagerModel> {
     return await this.prisma.manager.update({

@@ -1,10 +1,10 @@
 export class Contract {
   constructor(
     public id: string,
-    public created_at: Date,
-    public userId: string,
-    public courseId: string,
-    public updated_at?: Date,
-    public canceled_at?: Date,
+    public createdAt: Date,
+    public userID: string,
+    public courseID: string,
+    public updatedAt?: Date,
+    public canceledAt?: Date,
   ) {}
 }

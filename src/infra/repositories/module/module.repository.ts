@@ -69,7 +69,7 @@ export class ModuleRepository implements ModuleContract {
     })
   }
 
-  async delete(id: string): Promise<object | Error> {
+  async delete(id: string): Promise<ModuleModel> {
     return await this.prisma.module.delete({ where: { id } })
   }
 }

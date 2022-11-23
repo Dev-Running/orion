@@ -1,4 +1,4 @@
-import { CourseContract } from '@/data/contracts'
+import { CourseContract, ResponseContract } from '@/data/contracts'
 import { CourseModel } from '@/data/models'
 import { PrismaService } from '@/infra/prisma'
 import { Injectable } from '@nestjs/common'
@@ -39,13 +39,19 @@ export class CourseRepository implements CourseContract {
   }
   async findAll(): Promise<CourseModel[]> {
     return await this.prisma.course.findMany({
-      include: { modules: true, contracts: true, lessons: true },
+      include: {
+        modules: { include: { lessons: true } },
+        contracts: { select: { id: true } },
+      },
     })
   }
   async findByID(id: string): Promise<CourseModel> {
     return await this.prisma.course.findUnique({
       where: { id: id },
-      include: { modules: true, contracts: true, lessons: true },
+      include: {
+        modules: { include: { lessons: true } },
+        contracts: { select: { id: true } },
+      },
     })
   }
   async update(idCourse: string, data: any): Promise<CourseModel> {
@@ -54,10 +60,7 @@ export class CourseRepository implements CourseContract {
       data: data,
     })
   }
-  async delete(id: string): Promise<string | Error> {
-    return await this.prisma.course
-      .delete({ where: { id } })
-      .then((res) => 'deleted')
-      .catch((err) => 'not found')
+  async delete(id: string): Promise<CourseModel | ResponseContract> {
+    return await this.prisma.course.delete({ where: { id } })
   }
 }

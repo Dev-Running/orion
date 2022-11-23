@@ -1,3 +1,4 @@
+import { ResponseContract } from '@/data/contracts'
 import { CourseModel } from '@/data/models'
 import { CourseRepository } from '@/infra/repositories'
 import { Injectable } from '@nestjs/common'
@@ -22,7 +23,7 @@ export class CourseService {
     return await this.repository.update(idCourse, data)
   }
 
-  async delete(id: string): Promise<Error | string> {
+  async delete(id: string): Promise<CourseModel | ResponseContract> {
     return await this.repository.delete(id)
   }
 }

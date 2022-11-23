@@ -1,9 +1,13 @@
-import { Contract } from '@/domain/entities'
+import { ResponseContract } from '@/data/contracts'
+import { ContractModel } from '@/data/models/contract.models'
 
-export type ContractUseCases = {
-  new: (data: Contract) => Promise<Contract>
-  findByID: (id: string) => Promise<Contract>
-  findAll: () => Promise<Contract[]>
-  cancelContract: (id: string) => Promise<Error>
-  update: (idContract: string, data: {}) => Promise<Contract>
+export class ContractUseCases {
+  new: (data: ContractModel) => Promise<ContractModel | ResponseContract>
+  findByID: (id: string) => Promise<ContractModel | ResponseContract>
+  findAll: () => Promise<ContractModel[] | ResponseContract>
+  cancelContract: (id: string) => Promise<ContractModel | ResponseContract>
+  update: (
+    idContract: string,
+    data: any,
+  ) => Promise<ContractModel | ResponseContract>
 }

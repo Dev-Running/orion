@@ -4,29 +4,29 @@ import { Injectable } from '@nestjs/common'
 
 @Injectable()
 export class ModuleService {
-  constructor(private readonly repo: ModuleRepository) {}
+  constructor(private readonly repository: ModuleRepository) {}
 
   async new(data: ModuleModel): Promise<ModuleModel> {
-    return await this.repo.new(data)
+    return await this.repository.new(data)
   }
 
   async findAll(): Promise<ModuleModel[]> {
-    return await this.repo.findAll()
+    return await this.repository.findAll()
   }
 
   async findAllByCourseID(id: string): Promise<ModuleModel[]> {
-    return await this.repo.findAllByCourseID(id)
+    return await this.repository.findAllByCourseID(id)
   }
 
   async findByID(id: string): Promise<ModuleModel> {
-    return await this.repo.findByID(id)
+    return await this.repository.findByID(id)
   }
 
   async update(idModule: string, data: any): Promise<ModuleModel> {
-    return await this.repo.update(idModule, data)
+    return await this.repository.update(idModule, data)
   }
 
-  async delete(id: string): Promise<object | Error> {
-    return await this.repo.delete(id)
+  async delete(id: string): Promise<ModuleModel> {
+    return await this.repository.delete(id)
   }
 }

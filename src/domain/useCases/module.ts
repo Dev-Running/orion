@@ -1,9 +1,10 @@
+import { ResponseContract } from '@/data/contracts'
 import { Module } from '@/domain/entities'
-export type ModuleUseCases = {
-  new: (data: Module) => Promise<Module>
-  findByID: (id: string) => Promise<Module>
-  findAllByCourseID: (id: string) => Promise<Module[]>
-  findAll: () => Promise<Module[]>
-  delete: (id: string) => Promise<Error | object>
-  update: (idModule: string, data: {}) => Promise<Module>
+export class ModuleUseCases {
+  new: (data: Module) => Promise<Module | ResponseContract>
+  findByID: (id: string) => Promise<Module | ResponseContract>
+  findAllByCourseID: (id: string) => Promise<Module[] | ResponseContract>
+  findAll: () => Promise<Module[] | ResponseContract>
+  delete: (id: string) => Promise<Module | ResponseContract>
+  update: (idModule: string, data: any) => Promise<Module | ResponseContract>
 }

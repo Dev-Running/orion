@@ -1,4 +1,4 @@
-import { CourseContract } from '@/data/contracts'
+import { ResponseContract } from '@/data/contracts/response.contracts'
 import { CourseModel } from '@/data/models'
 import { CourseService } from '@/data/services'
 import {
@@ -12,34 +12,60 @@ import {
 } from '@nestjs/common'
 
 @Controller('course')
-export class CourseController implements CourseContract {
+export class CourseController {
   constructor(private service: CourseService) {}
 
   @Post()
-  async new(@Body() data: CourseModel): Promise<CourseModel> {
-    return await this.service.new(data)
+  async new(
+    @Body() data: CourseModel,
+  ): Promise<CourseModel | ResponseContract> {
+    return new ResponseContract(
+      201,
+      'Course created successfully',
+      await this.service.new(data),
+    )
   }
 
   @Get(':id')
-  async findByID(@Param('id') id: string): Promise<CourseModel> {
-    return await this.service.findByID(id)
+  async findByID(
+    @Param('id') id: string,
+  ): Promise<CourseModel | ResponseContract> {
+    return new ResponseContract(
+      200,
+      'Course found successfully',
+      await this.service.findByID(id),
+    )
   }
 
   @Get()
-  async findAll(): Promise<CourseModel[]> {
-    return await this.service.findAll()
+  async findAll(): Promise<CourseModel[] | ResponseContract> {
+    return new ResponseContract(
+      200,
+      'Courses found successfully',
+      await this.service.findAll(),
+    )
   }
 
   @Patch(':id')
   async update(
     @Param('id') idCourse: string,
     @Body() data: any,
-  ): Promise<CourseModel> {
-    return await this.service.update(idCourse, data)
+  ): Promise<CourseModel | ResponseContract> {
+    return new ResponseContract(
+      200,
+      'Course updated successfully',
+      await this.service.update(idCourse, data),
+    )
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: string): Promise<Error | string> {
-    return await this.service.delete(id)
+  async delete(
+    @Param('id') id: string,
+  ): Promise<CourseModel | ResponseContract> {
+    return new ResponseContract(
+      200,
+      'Course deleted successfully',
+      await this.service.delete(id),
+    )
   }
 }

@@ -17,7 +17,7 @@ export class ManagerService {
     return await this.repository.findByID(id)
   }
 
-  async delete(id: string): Promise<Error | string> {
+  async delete(id: string): Promise<ManagerModel> {
     return this.repository.delete(id)
   }
   async update(idManager: string, data: any): Promise<ManagerModel> {
