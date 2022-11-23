@@ -1,4 +1,4 @@
-import { Lesson, Module } from '@/domain/entities'
+import { Contract, Lesson, Module } from '@/domain/entities'
 
 export class Course {
   constructor(
@@ -11,6 +11,6 @@ export class Course {
     public readonly updatedAt?: Date,
     public readonly modules?: Module[],
     public readonly lessons?: Lesson[],
-    public readonly contract?,
+    public readonly contract?: Contract[],
   ) {}
 }

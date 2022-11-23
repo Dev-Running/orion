@@ -1,0 +1,6 @@
+export * from './course/course.controller'
+export * from './course/course.module'
+export * from './manager/manager.controller'
+export * from './manager/manager.module'
+export * from './module/module.controller'
+export * from './module/module.module'

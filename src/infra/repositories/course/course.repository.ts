@@ -38,10 +38,15 @@ export class CourseRepository implements CourseContract {
     )
   }
   async findAll(): Promise<CourseModel[]> {
-    return await this.prisma.course.findMany()
+    return await this.prisma.course.findMany({
+      include: { modules: true, contracts: true, lessons: true },
+    })
   }
   async findByID(id: string): Promise<CourseModel> {
-    return await this.prisma.course.findUnique({ where: { id: id } })
+    return await this.prisma.course.findUnique({
+      where: { id: id },
+      include: { modules: true, contracts: true, lessons: true },
+    })
   }
   async update(idCourse: string, data: any): Promise<CourseModel> {
     return await this.prisma.course.update({

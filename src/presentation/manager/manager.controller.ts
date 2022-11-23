@@ -1,6 +1,6 @@
 import { ManagerContract } from '@/data/contracts'
+import { ManagerModel } from '@/data/models'
 import { ManagerService } from '@/data/services'
-import { Manager } from '@/domain/entities'
 import {
   Body,
   Controller,
@@ -16,16 +16,16 @@ export class ManagerController implements ManagerContract {
   constructor(private service: ManagerService) {}
 
   @Post()
-  async new(@Body() body) {
+  async new(@Body() body): Promise<ManagerModel> {
     return this.service.new(body)
   }
   @Get(':id')
-  async findByID(@Param('id') id: string): Promise<Manager> {
+  async findByID(@Param('id') id: string): Promise<ManagerModel> {
     return this.service.findByID(id)
   }
 
   @Get()
-  async findAll(): Promise<Manager[]> {
+  async findAll(): Promise<ManagerModel[]> {
     return this.service.findAll()
   }
 
@@ -33,7 +33,7 @@ export class ManagerController implements ManagerContract {
   async update(
     @Param('id') idContract: string,
     @Body() data: any,
-  ): Promise<Manager> {
+  ): Promise<ManagerModel> {
     return this.service.update(idContract, data)
   }
 

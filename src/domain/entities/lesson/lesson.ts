@@ -4,10 +4,11 @@ export class Lesson {
     public readonly title: string,
     public readonly slug: string,
     public readonly description: string,
-    public readonly created_at: string,
-    public readonly updated_at: string,
     public readonly link: string,
-    public readonly moduleId: string,
-    public readonly courseId: string,
+    public readonly moduleID: string,
+    public readonly courseID: string,
+    public readonly createdAt: Date,
+    public readonly updatedAt?: Date,
+    public readonly deletedAt?: Date,
   ) {}
 }

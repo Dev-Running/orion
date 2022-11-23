@@ -22,7 +22,7 @@ model Manager {
 
 model Lesson {
   id          String    @id
-  name        String
+  title       String
   slug        String    @unique
   description String
   link        String    @unique
@@ -66,8 +66,8 @@ model Contract {
   id         String    @id
   createdAt  DateTime
   updatedAt  DateTime  @updatedAt
-  userID     String
   canceledAt DateTime?
-  Course     Course?   @relation(fields: [courseID], references: [id])
-  courseID   String?
+  userID     String
+  Course     Course    @relation(fields: [courseID], references: [id])
+  courseID   String
 }

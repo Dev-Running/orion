@@ -7,5 +7,12 @@ export class Manager {
     public createdAt?: Date,
     public updatedAt?: Date,
     public deletedAt?: Date,
-  ) {}
+  ) {
+    if (!updatedAt) {
+      this.updatedAt = null
+    }
+    if (!deletedAt) {
+      this.deletedAt = null
+    }
+  }
 }

@@ -5,14 +5,10 @@ export class Module {
     public title: string,
     public description: string,
     public slug: string,
-    public created_at: Date,
-    public updated_at: Date,
-    public courseId: string,
+    public courseID: string,
+    public createdAt?: Date,
+    public updatedAt?: Date,
     public lessons?: Lesson[],
-    deleted_at?: Date,
-  ) {
-    if (!lessons) {
-      this.lessons = []
-    }
-  }
+    public deletedAt?: Date,
+  ) {}
 }
