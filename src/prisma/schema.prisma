@@ -1,0 +1,72 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Manager {
+  id        String    @id
+  name      String
+  email     String    @unique
+  password  String
+  createdAt DateTime
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+}
+
+model Lesson {
+  id          String    @id
+  name        String
+  slug        String    @unique
+  description String
+  link        String    @unique
+  module      Module    @relation(fields: [moduleID], references: [id])
+  moduleID    String
+  course      Course    @relation(fields: [courseID], references: [id])
+  courseID    String
+  createdAt   DateTime
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+}
+
+model Module {
+  id          String    @id
+  title       String
+  slug        String    @unique
+  description String
+  lessons     Lesson[]
+  course      Course    @relation(fields: [courseID], references: [id])
+  courseID    String
+  createdAt   DateTime
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+}
+
+model Course {
+  id          String     @id
+  title       String
+  slug        String     @unique
+  description String
+  modules     Module[]
+  lessons     Lesson[]
+  contracts   Contract[]
+  createdAt   DateTime
+  updatedAt   DateTime   @updatedAt
+  deletedAt   DateTime?
+}
+
+model Contract {
+  id         String    @id
+  createdAt  DateTime
+  updatedAt  DateTime  @updatedAt
+  userID     String
+  canceledAt DateTime?
+  Course     Course?   @relation(fields: [courseID], references: [id])
+  courseID   String?
+}
