@@ -1,19 +1,17 @@
-import { ManagerModel } from '@/data/models/manager.models'
+import { ManagerContract } from '@/data/contracts'
+import { ManagerModel } from '@/data/models'
 import { Manager as Man } from '@/domain/entities'
-import { PrismaService } from '@/prisma/prisma.service'
+import { PrismaService } from '@/prisma'
 import { Injectable } from '@nestjs/common'
+import { genSaltSync, hashSync } from 'bcrypt'
 import { randomUUID } from 'crypto'
 @Injectable()
-export class ManagerRepository implements ManagerRepository {
+export class ManagerRepository implements ManagerContract {
   constructor(private prisma: PrismaService) {}
   async new(data: ManagerModel): Promise<ManagerModel> {
-    const user = new Man(
-      randomUUID(),
-      data.name,
-      data.email,
-      data.password,
-      new Date(),
-    )
+    const salt = genSaltSync(10)
+    const hash = hashSync(data.password, salt)
+    const user = new Man(randomUUID(), data.name, data.email, hash, new Date())
     const { id, email, name, password } = user
 
     return await this.prisma.manager.create({

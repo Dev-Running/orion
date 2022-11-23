@@ -1,7 +1,7 @@
 import { ManagerUseCases } from '@/domain/useCases'
 import { ManagerModel } from '../models/manager.models'
 
-export class ManagerRepository implements ManagerUseCases {
+export class ManagerContract implements ManagerUseCases {
   new: (data: ManagerModel) => Promise<ManagerModel>
   findByID: (id: string) => Promise<ManagerModel>
   findAll: () => Promise<ManagerModel[]>

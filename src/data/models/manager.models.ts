@@ -1,3 +1,3 @@
 import { Manager } from '@/domain/entities'
 
-export type ManagerModel = Manager
+export class ManagerModel extends Manager {}

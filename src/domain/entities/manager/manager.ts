@@ -4,8 +4,8 @@ export class Manager {
     public name: string,
     public email: string,
     public password: string,
-    public created_at?: Date,
-    public updated_at?: Date,
-    public deleted_at?: Date,
+    public createdAt?: Date,
+    public updatedAt?: Date,
+    public deletedAt?: Date,
   ) {}
 }

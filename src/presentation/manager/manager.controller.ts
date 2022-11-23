@@ -1,4 +1,4 @@
-import { ManagerRepository } from '@/data/contracts/manager.contracts'
+import { ManagerContract } from '@/data/contracts'
 import { Manager } from '@/domain/entities'
 import { ManagerService } from '@/infra/services'
 import {
@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common'
 
 @Controller('manager')
-export class ManagerController implements ManagerRepository {
+export class ManagerController implements ManagerContract {
   constructor(private service: ManagerService) {}
 
   @Post()

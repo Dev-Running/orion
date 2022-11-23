@@ -52,6 +52,7 @@ model Course {
   id          String     @id
   title       String
   slug        String     @unique
+  image       String
   description String
   modules     Module[]
   lessons     Lesson[]
