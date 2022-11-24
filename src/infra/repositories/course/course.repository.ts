@@ -1,12 +1,16 @@
 import { CourseContract, ResponseContract } from '@/data/contracts'
 import { CourseModel } from '@/data/models'
 import { PrismaService } from '@/infra/prisma'
-import { Injectable } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
+import { ClientKafka } from '@nestjs/microservices'
 import { randomUUID } from 'crypto'
 
 @Injectable()
 export class CourseRepository implements CourseContract {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    @Inject('ORION') private client: ClientKafka,
+  ) {}
   async new(data: CourseModel): Promise<CourseModel> {
     const {
       id,
@@ -25,6 +29,17 @@ export class CourseRepository implements CourseContract {
         image: data.image,
         description: data.description,
         title: data.title,
+      },
+    })
+
+    await this.client.emit('polaris', {
+      typeMessage: 'newCourse',
+      message: {
+        id,
+        title,
+        slug,
+        image,
+        description,
       },
     })
     return new CourseModel(
@@ -55,12 +70,23 @@ export class CourseRepository implements CourseContract {
     })
   }
   async update(idCourse: string, data: any): Promise<CourseModel> {
-    return await this.prisma.course.update({
+    const courseUpd = await this.prisma.course.update({
       where: { id: idCourse },
       data: data,
     })
+
+    await this.client.emit('polaris', {
+      typeMessage: 'updateCourse',
+      message: courseUpd,
+    })
+    return courseUpd
   }
   async delete(id: string): Promise<CourseModel | ResponseContract> {
-    return await this.prisma.course.delete({ where: { id } })
+    const courseDeleted = await this.prisma.course.delete({ where: { id } })
+    await this.client.emit('polaris', {
+      typeMessage: 'deleteCourse',
+      message: courseDeleted,
+    })
+    return courseDeleted
   }
 }

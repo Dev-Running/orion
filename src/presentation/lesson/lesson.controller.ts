@@ -34,7 +34,7 @@ export class LessonController implements LessonContract {
   }
 
   @Get(':id')
-  async findByID(@Param(':id') id: string): Promise<Lesson | ResponseContract> {
+  async findByID(@Param('id') id: string): Promise<Lesson | ResponseContract> {
     return new ResponseContract(
       200,
       'Lesson found successfully',
@@ -44,7 +44,7 @@ export class LessonController implements LessonContract {
 
   @Patch(':id')
   async update(
-    @Param(':id')
+    @Param('id')
     idLesson: string,
     @Body()
     data: any,

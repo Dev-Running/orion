@@ -13,13 +13,13 @@ export class LessonService {
     return await this.repository.findAll()
   }
   async findByID(id: string): Promise<Lesson | ResponseContract> {
-    return await this.findByID(id)
+    return await this.repository.findByID(id)
   }
   async update(
     idLesson: string,
     data: any,
   ): Promise<Lesson | ResponseContract> {
-    return await this.update(idLesson, data)
+    return await this.repository.update(idLesson, data)
   }
   async delete(id: string): Promise<Lesson | ResponseContract> {
     return await this.repository.delete(id)
