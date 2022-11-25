@@ -15,7 +15,7 @@ import { LessonController } from './lesson.controller'
         options: {
           client: {
             clientId: 'orion',
-            brokers: ['localhost:9091', 'localhost:9092', 'localhost:9093'],
+            brokers: ['broker1:9091'],
           },
           send: {
             acks: -1,
