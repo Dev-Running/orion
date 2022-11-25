@@ -55,7 +55,7 @@ export class ModuleRepository implements ModuleContract {
   async findAll(): Promise<ModuleModel[]> {
     await this.client.emit('polaris', {
       typeMessage: 'teste',
-      message: 'teste',
+      message: 'test message',
     })
     return await this.prisma.module.findMany()
   }
