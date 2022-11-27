@@ -46,7 +46,6 @@ export class CourseRepository implements CourseContract {
     return await this.prisma.course.findMany({
       include: {
         modules: { include: { lessons: true } },
-        contracts: { select: { id: true } },
       },
     })
   }
@@ -55,7 +54,6 @@ export class CourseRepository implements CourseContract {
       where: { id: id },
       include: {
         modules: { include: { lessons: true } },
-        contracts: { select: { id: true } },
       },
     })
   }
