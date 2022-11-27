@@ -12,7 +12,6 @@ export class CourseRepository implements CourseContract {
   ) {}
   async new(data: CourseModel): Promise<CourseModel> {
     const course = CourseModel.create(data)
-
     await this.prisma.course.create({
       data: {
         id: course.id,

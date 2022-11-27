@@ -7,7 +7,6 @@ import {
   ModuleModule,
 } from '@/presentation'
 import { Module } from '@nestjs/common'
-import { TestModule } from './test/test.module';
 
 @Module({
   imports: [
@@ -16,7 +15,6 @@ import { TestModule } from './test/test.module';
     ModuleModule,
     LessonModule,
     ContractModule,
-    TestModule,
   ],
   controllers: [],
   providers: [PrismaService],

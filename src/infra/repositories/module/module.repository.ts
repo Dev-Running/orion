@@ -3,7 +3,6 @@ import { ModuleModel } from '@/data/models'
 import { PrismaService } from '@/infra/prisma'
 import { Inject, Injectable } from '@nestjs/common'
 import { ClientKafka } from '@nestjs/microservices'
-import { randomUUID } from 'crypto'
 
 @Injectable()
 export class ModuleRepository implements ModuleContract {
@@ -12,33 +11,17 @@ export class ModuleRepository implements ModuleContract {
     @Inject('ORION') private client: ClientKafka,
   ) {}
   async new(data: ModuleModel): Promise<ModuleModel> {
-    const {
-      id,
-      courseID,
-      createdAt,
-      description,
-      slug,
-      title,
-      deletedAt,
-      updatedAt,
-    } = new ModuleModel(
-      randomUUID(),
-      data.title,
-      data.description,
-      data.slug,
-      data.courseID,
-      new Date(),
-    )
-    const module = await this.prisma.module.create({
+    const module = ModuleModel.create(data)
+    await this.prisma.module.create({
       data: {
-        id,
-        courseID,
-        createdAt,
-        description,
-        slug,
-        title,
-        deletedAt,
-        updatedAt,
+        id: module.id,
+        courseID: module.courseID,
+        createdAt: module.createdAt,
+        description: module.description,
+        slug: module.slug,
+        title: module.title,
+        deletedAt: module.deletedAt,
+        updatedAt: module.updatedAt,
       },
     })
     await this.client.emit('polaris', {
@@ -46,8 +29,8 @@ export class ModuleRepository implements ModuleContract {
       message: module,
     })
     await this.prisma.course.update({
-      where: { id: courseID },
-      data: { modules: { connect: { id } } },
+      where: { id: module.courseID },
+      data: { modules: { connect: { id: module.id } } },
     })
     return module
   }
@@ -69,7 +52,8 @@ export class ModuleRepository implements ModuleContract {
   }
 
   async findByID(id: string): Promise<ModuleModel> {
-    return await this.prisma.module.findUnique({ where: { id } })
+    const module = await this.prisma.module.findUnique({ where: { id } })
+    return ModuleModel.assign(module)
   }
 
   async update(idModule: string, data: any): Promise<ModuleModel> {
@@ -83,7 +67,7 @@ export class ModuleRepository implements ModuleContract {
       typeMessage: 'updateModule',
       message: moduleUpd,
     })
-    return moduleUpd
+    return ModuleModel.assign(moduleUpd)
   }
 
   async delete(id: string): Promise<ModuleModel> {
@@ -92,6 +76,6 @@ export class ModuleRepository implements ModuleContract {
       typeMessage: 'deleteModule',
       message: moduleDlt,
     })
-    return moduleDlt
+    return ModuleModel.assign(moduleDlt)
   }
 }
