@@ -25,4 +25,30 @@ export class Lesson {
 
     this.link = this.link.toLowerCase()
   }
+
+  static create(data: Lesson): Lesson {
+    return new Lesson(
+      data.title,
+      data.slug,
+      data.description,
+      data.link,
+      data.moduleID,
+      data.courseID,
+    )
+  }
+
+  static assign(data: Lesson): Lesson {
+    return new Lesson(
+      data.title,
+      data.slug,
+      data.description,
+      data.link,
+      data.moduleID,
+      data.courseID,
+      data.id,
+      data.createdAt,
+      data.updatedAt,
+      data.deletedAt,
+    )
+  }
 }

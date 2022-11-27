@@ -13,27 +13,19 @@ export class LessonRepository implements LessonContract {
   ) {}
 
   async new(allData: Lesson): Promise<LessonModel> {
-    const data = new LessonModel(
-      allData.title,
-      allData.slug,
-      allData.description,
-      allData.link,
-      allData.moduleID,
-      allData.courseID,
-    )
+    const lesson = LessonModel.create(allData)
 
-    const lesson = await this.prisma.lesson.create({
+    await this.prisma.lesson.create({
       data: {
-        id: data.id,
-        link: data.link,
-        createdAt: data.createdAt,
-        description: data.description,
-        slug: data.slug,
-        title: data.title,
-        courseID: data.courseID,
-        moduleID: data.moduleID,
+        id: lesson.id,
+        link: lesson.link,
+        createdAt: lesson.createdAt,
+        description: lesson.description,
+        slug: lesson.slug,
+        title: lesson.title,
+        courseID: lesson.courseID,
+        moduleID: lesson.moduleID,
       },
-      include: { course: true, module: true },
     })
 
     await this.client.emit('polaris', {
@@ -45,10 +37,12 @@ export class LessonRepository implements LessonContract {
   }
 
   async findByID(id: string): Promise<LessonModel> {
-    return await this.prisma.lesson.findUnique({
+    const fetch = await this.prisma.lesson.findUnique({
       where: { id },
       include: { course: true, module: true },
     })
+
+    return LessonModel.assign(fetch)
   }
 
   async findAll(): Promise<LessonModel[]> {
@@ -66,7 +60,8 @@ export class LessonRepository implements LessonContract {
       typeMessage: 'updateLesson',
       message: lessonUpd,
     })
-    return lessonUpd
+
+    return LessonModel.assign(lessonUpd)
   }
 
   async delete(id: string): Promise<LessonModel | ResponseContract> {
@@ -75,6 +70,6 @@ export class LessonRepository implements LessonContract {
       typeMessage: 'deleteLesson',
       message: lessonDlt,
     })
-    return lessonDlt
+    return LessonModel.assign(lessonDlt)
   }
 }
