@@ -3,7 +3,6 @@ import { CourseModel } from '@/data/models'
 import { PrismaService } from '@/infra/prisma'
 import { Inject, Injectable } from '@nestjs/common'
 import { ClientKafka } from '@nestjs/microservices'
-import { randomUUID } from 'crypto'
 
 @Injectable()
 export class CourseRepository implements CourseContract {
@@ -12,45 +11,36 @@ export class CourseRepository implements CourseContract {
     @Inject('ORION') private client: ClientKafka,
   ) {}
   async new(data: CourseModel): Promise<CourseModel> {
-    const {
-      id,
-      createdAt,
-      deletedAt,
-      description,
-      image,
-      slug,
-      title,
-      updatedAt,
-    } = await this.prisma.course.create({
+    const course = new CourseModel(
+      data.title,
+      data.slug,
+      data.description,
+      data.image,
+    )
+    await this.prisma.course.create({
       data: {
-        id: randomUUID(),
-        slug: data.slug,
-        createdAt: new Date(),
-        image: data.image,
-        description: data.description,
-        title: data.title,
+        id: course.id,
+        slug: course.slug,
+        createdAt: course.createdAt,
+        image: course.image,
+        description: course.description,
+        title: course.title,
+        updatedAt: course.updatedAt,
       },
     })
 
     await this.client.emit('polaris', {
       typeMessage: 'newCourse',
       message: {
-        id,
-        title,
-        slug,
-        image,
-        description,
+        id: course.id,
+        slug: course.slug,
+        createdAt: course.createdAt,
+        image: course.image,
+        description: course.description,
+        title: course.title,
       },
     })
-    return new CourseModel(
-      id,
-      title,
-      slug,
-      description,
-      image,
-      createdAt,
-      updatedAt,
-    )
+    return course
   }
   async findAll(): Promise<CourseModel[]> {
     return await this.prisma.course.findMany({

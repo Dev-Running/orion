@@ -4,7 +4,6 @@ import { Lesson } from '@/domain/entities'
 import { PrismaService } from '@/infra/prisma'
 import { Inject, Injectable } from '@nestjs/common'
 import { ClientKafka } from '@nestjs/microservices'
-import { randomUUID } from 'crypto'
 
 @Injectable()
 export class LessonRepository implements LessonContract {
@@ -15,34 +14,31 @@ export class LessonRepository implements LessonContract {
 
   async new(allData: Lesson): Promise<LessonModel> {
     const data = new LessonModel(
-      randomUUID(),
       allData.title,
       allData.slug,
       allData.description,
       allData.link,
       allData.moduleID,
       allData.courseID,
-      new Date(),
     )
 
     const lesson = await this.prisma.lesson.create({
-      data,
+      data: {
+        id: data.id,
+        link: data.link,
+        createdAt: data.createdAt,
+        description: data.description,
+        slug: data.slug,
+        title: data.title,
+        courseID: data.courseID,
+        moduleID: data.moduleID,
+      },
       include: { course: true, module: true },
     })
 
     await this.client.emit('polaris', {
       typeMessage: 'newLesson',
       message: lesson,
-    })
-
-    await this.prisma.module.update({
-      where: { id: lesson.moduleID },
-      data: { lessons: { connect: { id: lesson.id } } },
-    })
-
-    await this.prisma.course.update({
-      where: { id: lesson.courseID },
-      data: { lessons: { connect: { id: lesson.id } } },
     })
 
     return lesson

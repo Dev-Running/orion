@@ -12,7 +12,7 @@ export class Course {
     public readonly updatedAt?: Date,
     public readonly modules?: Module[],
     public readonly lessons?: Lesson[],
-    public readonly contracts?: Contract[],
+    public readonly contract?: Contract[],
   ) {
     // Slug => this-is-a-slug
     this.slug = this.slug.toLowerCase()
