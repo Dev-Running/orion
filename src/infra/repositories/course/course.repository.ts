@@ -11,12 +11,8 @@ export class CourseRepository implements CourseContract {
     @Inject('ORION') private client: ClientKafka,
   ) {}
   async new(data: CourseModel): Promise<CourseModel> {
-    const course = new CourseModel(
-      data.title,
-      data.slug,
-      data.description,
-      data.image,
-    )
+    const course = CourseModel.create(data)
+
     await this.prisma.course.create({
       data: {
         id: course.id,
@@ -50,12 +46,15 @@ export class CourseRepository implements CourseContract {
     })
   }
   async findByID(id: string): Promise<CourseModel> {
-    return await this.prisma.course.findUnique({
+    const fetch = await this.prisma.course.findUnique({
       where: { id: id },
       include: {
         modules: { include: { lessons: true } },
       },
     })
+
+    const course = CourseModel.assign(fetch)
+    return course
   }
   async update(idCourse: string, data: any): Promise<CourseModel> {
     const courseUpd = await this.prisma.course.update({
@@ -67,7 +66,8 @@ export class CourseRepository implements CourseContract {
       typeMessage: 'updateCourse',
       message: courseUpd,
     })
-    return courseUpd
+    const course = CourseModel.assign(courseUpd)
+    return course
   }
   async delete(id: string): Promise<CourseModel | ResponseContract> {
     const courseDeleted = await this.prisma.course.delete({ where: { id } })
@@ -75,6 +75,8 @@ export class CourseRepository implements CourseContract {
       typeMessage: 'deleteCourse',
       message: courseDeleted,
     })
-    return courseDeleted
+
+    const course = CourseModel.assign(courseDeleted)
+    return course
   }
 }

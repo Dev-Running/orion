@@ -27,4 +27,23 @@ export class Course {
       this.createdAt = new Date()
     }
   }
+
+  static create(data: Course): Course {
+    return new Course(data.title, data.slug, data.description, data.image)
+  }
+
+  static assign(data: Course): Course {
+    return new Course(
+      data.title,
+      data.slug,
+      data.description,
+      data.image,
+      data.id,
+      data.createdAt,
+      data.updatedAt,
+      data.modules,
+      data.lessons,
+      data.contracts,
+    )
+  }
 }
